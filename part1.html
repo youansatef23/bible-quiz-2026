@@ -4,540 +4,452 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مسابقة الكتاب المقدس والمحفوظات ٢٠٢٦</title>
-    <!-- Tailwind CSS for modern and responsive styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts for Arabic Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome for beautiful icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
+        :root {
+            --primary: #1a5276;
+            --primary-light: #ebf5fb;
+            --accent: #ba4a00;
+            --text-dark: #2b2d42;
+            --text-muted: #566573;
+            --bg-body: #f4f6f7;
+            --bg-card: #ffffff;
+            --correct: #27ae60;
+            --wrong: #c0392b;
+            --border: #d5dbdb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #eef2f7 0%, #dfe6e9 100%);
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
         }
-        .custom-shadow {
-            box-shadow: 0 10px 30px -5px rgba(26, 82, 118, 0.1), 0 8px 20px -6px rgba(0, 0, 0, 0.05);
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .option-card {
-            transition: all 0.25s ease;
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), #2980b9);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .option-card:hover {
-            transform: translateY(-2px);
+
+        header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
         }
-        input[type="radio"]:checked + label {
-            border-color: #1a5276;
-            background-color: #ebf5fb;
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        .section-title {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            display: inline-block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        .question-box {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .question-box:last-child {
+            border-bottom: none;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .question-num {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: var(--primary-light);
+        }
+
+        .option-label input {
+            margin-left: 10px;
+            transform: scale(1.2);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            background-color: #a04000;
+        }
+
+        .result-box {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px auto;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .feedback.correct {
+            background-color: #d4efdf;
+            color: var(--correct);
+        }
+
+        .feedback.wrong {
+            background-color: #f9e7e7;
+            color: var(--wrong);
+        }
+
+        .model-answer {
+            background-color: #fcf3cf;
+            border-right: 4px solid #f1c40f;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+        }
+
+        #blockedBox {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            border: 2px solid var(--wrong);
+            background-color: #f9e7e7;
+            border-radius: 12px;
+        }
+        #blockedBox h2 {
+            color: var(--wrong);
+            margin-bottom: 15px;
         }
     </style>
 </head>
-<body class="min-height-screen py-8 px-4 flex justify-center items-center">
+<body>
 
-    <!-- MAIN APP CONTAINER -->
-    <div class="w-full max-w-3xl bg-white rounded-2xl custom-shadow overflow-hidden relative border border-slate-100">
-        
-        <!-- Header Design -->
-        <div class="bg-gradient-to-r from-[#1a5276] to-[#2980b9] text-white p-6 text-center relative">
-            <div class="absolute top-3 left-4 text-xs bg-amber-400 text-slate-900 px-3 py-1 rounded-full font-bold">
-                مهرجان ٢٠٢٦ م
-            </div>
-            <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide drop-shadow-sm">مسابقة الكتاب المقدس والمحفوظات</h1>
-            <p class="text-sky-100 text-sm md:text-base mt-2 font-medium">اختبار تفاعلي لمرحلة خامسة وسادسة ابتدائي </p>
-        </div>
+<div class="container">
+    <header>
+        <h1>مسابقة الكتاب المقدس والمحفوظات ٢٠٢٦</h1>
+        <p>مهرجان الكرازة المرقسية - اختبار تفاعلي تجريبي</p>
+    </header>
 
-        <!-- PROGRESS BAR -->
-        <div id="progress-container" class="hidden h-2 bg-slate-100 w-full">
-            <div id="progress-bar" class="h-full bg-amber-400 transition-all duration-300" style="width: 0%"></div>
-        </div>
-
-        <!-- STAGE 1: WELCOME & REGISTRATION -->
-        <div id="welcome-stage" class="p-8">
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-amber-100 text-amber-500 rounded-full mb-4">
-                    <i class="fa-solid fa-book-bible text-4xl"></i>
-                </div>
-                <h2 class="text-xl font-bold text-slate-800">أهلاً بك يا صديقي البطل في الاختبار التفاعلي!</h2>
-                <p class="text-slate-500 text-sm mt-1">اكتب بياناتك الجميلة لتسجيل نتيجتك وحفظ نقاطك في المسابقة</p>
-            </div>
-
-            <form id="reg-form" onsubmit="startQuiz(event)" class="space-y-5 max-w-md mx-auto">
-                <div>
-                    <label class="block text-slate-700 font-semibold mb-2">اسمك الجميل (ثنائي أو ثلاثي) <span class="text-red-500">*</span></label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400">
-                            <i class="fa-solid fa-user"></i>
-                        </span>
-                        <input type="text" id="student-name" required placeholder="مثال:ماريو ماجد" 
-                               class="w-full pr-10 pl-3 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#1a5276] focus:border-[#1a5276] outline-none transition text-slate-800 font-medium">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-slate-700 font-semibold mb-2">الكنيسة / منطقة الخدمة <span class="text-red-500">*</span></label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400">
-                            <i class="fa-solid fa-church"></i>
-                        </span>
-                        <input type="text" id="student-church" required placeholder="مثال: كنيسة الشهيد العظيم مارجرجس الروماني بسيدي بشر  " 
-                               class="w-full pr-10 pl-3 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#1a5276] focus:border-[#1a5276] outline-none transition text-slate-800 font-medium">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-slate-700 font-semibold mb-2">الصف الدراسي <span class="text-red-500">*</span></label>
-                    <div class="grid grid-cols-2 gap-4">
-                        <label class="flex items-center justify-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition font-bold text-slate-700">
-                            <input type="radio" name="student-grade" value="الصف الخامس الابتدائي" required class="ml-2 accent-[#1a5276]">
-                            الصف الخامس
-                        </label>
-                        <label class="flex items-center justify-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition font-bold text-slate-700">
-                            <input type="radio" name="student-grade" value="الصف السادس الابتدائي" class="ml-2 accent-[#1a5276]">
-                            الصف السادس
-                        </label>
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full py-4 bg-gradient-to-r from-[#1a5276] to-[#2980b9] text-white font-bold rounded-xl shadow-lg hover:opacity-95 transition flex justify-center items-center gap-2 mt-6">
-                    ابدأ الاختبار الآن 
-                    <i class="fa-solid fa-play"></i>
-                </button>
-            </form>
-        </div>
-
-        <!-- STAGE 2: THE ACTIVE QUESTIONS CARD -->
-        <div id="quiz-stage" class="hidden p-8">
-            <!-- Question Box Dynamic Structure -->
-            <div id="question-card" class="space-y-6">
-                <div class="flex justify-between items-center pb-4 border-b border-slate-100">
-                    <span id="question-index" class="text-sm bg-[#1a5276] text-white font-bold px-3 py-1 rounded-full"></span>
-                    <span id="question-type" class="text-xs font-semibold text-slate-400"></span>
-                </div>
-
-                <!-- Text of the actual question -->
-                <h3 id="question-text" class="text-lg md:text-xl font-bold text-slate-800 leading-relaxed"></h3>
-
-                <!-- MCQ Options / True False options / Text area will render here dynamically -->
-                <div id="options-container" class="space-y-3 pt-2"></div>
-            </div>
-
-            <!-- Footer control buttons -->
-            <div class="flex justify-between items-center mt-8 pt-6 border-t border-slate-100">
-                <button onclick="prevQuestion()" id="prev-btn" class="hidden py-2.5 px-5 border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition">
-                    السابق
-                </button>
-                <div class="flex-grow"></div>
-                <button onclick="nextQuestion()" id="next-btn" class="py-2.5 px-6 bg-[#1a5276] text-white font-bold rounded-xl hover:bg-[#1a5276]/90 transition flex items-center gap-2">
-                    <span id="next-text">السؤال التالي</span>
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- STAGE 3: DETAILED SCORE REPORT & SELF-ASSESSMENT -->
-        <div id="result-stage" class="hidden p-8">
-            <div class="text-center mb-8">
-                <!-- Achievement Ribbon / Shield Dynamic -->
-                <div id="trophy-box" class="inline-flex items-center justify-center w-24 h-24 rounded-full mb-4"></div>
-                <h2 id="result-greeting" class="text-2xl font-extrabold text-slate-800"></h2>
-                <p id="student-meta" class="text-slate-500 text-sm mt-1"></p>
-                
-                <!-- Score Circle -->
-                <div class="my-6 inline-flex flex-col items-center justify-center p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">النتيجة النهائية</span>
-                    <span id="final-percentage" class="text-4xl font-black mt-1"></span>
-                    <span id="score-fraction" class="text-sm font-semibold text-slate-500 mt-1"></span>
-                </div>
-            </div>
-
-            <!-- Dynamic Corrections Overview -->
-            <div class="space-y-6">
-                <h3 class="text-lg font-bold text-slate-800 border-b pb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
-                    مراجعة وتقييم إجاباتك:
-                </h3>
-
-                <!-- T/F and MCQ Report -->
-                <div id="auto-graded-report" class="space-y-4"></div>
-
-                <!-- Essay Report (Self Corrective UI) -->
-                <div id="essay-report-section" class="space-y-4 mt-6">
-                    <h4 class="font-bold text-slate-700 text-base border-r-4 border-amber-400 pr-2">التقييم الذاتي للأسئلة المقالية:</h4>
-                    <div id="essay-report" class="space-y-4"></div>
-                </div>
-            </div>
-
-            <!-- Retry / Print Action Controls -->
-            <div class="flex flex-col md:flex-row gap-4 mt-8 pt-6 border-t border-slate-100">
-                <button onclick="window.print()" class="flex-1 py-3 border border-slate-300 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition flex justify-center items-center gap-2">
-                    <i class="fa-solid fa-print"></i>
-                    طباعة تقرير الإجابات
-                </button>
-                <button onclick="restartQuiz()" class="flex-1 py-3 bg-emerald-500 text-white font-bold rounded-xl hover:bg-emerald-600 transition flex justify-center items-center gap-2">
-                    <i class="fa-solid fa-arrows-rotate"></i>
-                    إعادة المحاولة مجدداً
-                </button>
-            </div>
-        </div>
-
+    <div id="blockedBox" class="card">
+        <h2>عذراً! غير مسموح بالدخول مرة أخرى ❌</h2>
+        <p style="font-size: 16px; font-weight: bold;">لقد قمت باجتياز هذا الاختبار مسبقاً من هذا الجهاز. مسموح بمحاولة واحدة فقط لكل طالب لضمان تكافؤ الفرص.</p>
     </div>
 
-    <!-- PRESENTATION LOGIC -->
-    <script>
-        // Array of questions extracted with references from pages 3-5
-        const questions = [
-            {
-                id: 1,
-                type: "mcq",
-                typeText: "اختيار من متعدد",
-                text: "ما هو الموضوع والمحور الرئيسي الثابت للكتاب المقدس بأكمله من أول كلمة فيه إلى آخر كلمة؟",
-                options: [
-                    { id: "a", text: "أ) قصص الأنبياء وملوك العهد القديم" },
-                    { id: "b", text: "ب) شخص الرب يسوع المسيح وخلاص الإنسان" },
-                    { id: "c", text: "ج) تاريخ الأمة اليهودية والتشريعات الاجتماعية" }
-                ],
-                correct: "b",
-                explanation: "الموضوع الرئيسي للكتاب المقدس من أول كلمة فيه إلى آخر كلمة هو الرب يسوع المسيح وخلاص الإنسان (ورد في صفحة ٤)."
-            },
-            {
-                id: 2,
-                type: "mcq",
-                typeText: "اختيار من متعدد",
-                text: "كم عدد الآباء والقديسين الذين أرشدهم الروح القدس واشتركوا في كتابة أسفار الكتاب المقدس عبر التاريخ؟",
-                options: [
-                    { id: "a", text: "أ) حوالي ٢٠ كاتباً وقديساً" },
-                    { id: "b", text: "ب) حوالي ٤٠ كاتباً وقديساً" },
-                    { id: "c", text: "ج) حوالي ٦٠ كاتباً وقديساً" }
-                ],
-                correct: "b",
-                explanation: "أشرف على كتابة الكتاب المقدس حوالي ٤٠ كاتباً من القديسين مسوقين من الروح القدس (صفحة ٣)."
-            },
-            {
-                id: 3,
-                type: "mcq",
-                typeText: "اختيار من متعدد",
-                text: "وفقاً لمقدمة المنهج، ما هي مدة خطة دراسة الكتاب المقدس والمحفوظات المقررة لمرحلة الطفولة (من حضانة إلى سادسة ابتدائي)؟",
-                options: [
-                    { id: "a", text: "أ) ٦ سنوات متتالية" },
-                    { id: "b", text: "ب) ٨ سنوات متتالية" },
-                    { id: "c", text: "ج) ١٠ سنوات متتالية" }
-                ],
-                correct: "b",
-                explanation: "تم إعداد خطة شاملة لدراسة الكتاب المقدس على مدار ٨ سنوات من حضانة حتى ٦ ابتدائي لتكوين حصة قصصية جيدة للطفل (صفحة ٢)."
-            },
-            {
-                id: 4,
-                type: "mcq",
-                typeText: "اختيار من متعدد",
-                text: "في مهارات قراءة الكتاب المقدس، ماذا يُقصد بخطوة 'اكتشف الكنز'؟",
-                options: [
-                    { id: "a", text: "أ) البحث عن معاني الكلمات الصعبة بالمعجم" },
-                    { id: "b", text: "ب) استخراج وصية أو وعد أو موقف لنتعلم منه أثناء القراءة" },
-                    { id: "c", text: "ج) حفظ النص عن ظهر قلب والتركيز على الحروف" }
-                ],
-                correct: "b",
-                explanation: "اكتشاف الكنز يهدف لاستخراج وصية أو تعليم أو وعد أو موقف نتعلم منه ونطبقه في حياتنا (صفحة ٦)."
-            },
-            {
-                id: 5,
-                type: "tf",
-                typeText: "صح أم خطأ",
-                text: "كُتبت أسفار الكتاب المقدس كاملة في فترة زمنية قصيرة بلغت حوالي ١٦٠ عاماً تقريباً.",
-                options: [
-                    { id: "t", text: "صـح" },
-                    { id: "f", text: "خطـأ" }
-                ],
-                correct: "f",
-                explanation: "كُتب الكتاب المقدس في حوالي ١٦٠٠ عاماً وليس ١٦٠ عاماً (صفحة ٣)."
-            },
-            {
-                id: 6,
-                type: "tf",
-                typeText: "صح أم خطأ",
-                text: "وفقاً للتقسيم التقليدي لأسفار العهد الجديد الـ (٢٧)، يعتبر سفر 'أعمال الرسل' هو السفر التاريخي الوحيد.",
-                options: [
-                    { id: "t", text: "صـح" },
-                    { id: "f", text: "خطـأ" }
-                ],
-                correct: "t",
-                explanation: "ينفرد سفر أعمال الرسل بأنه السفر التاريخي الوحيد في أسفار العهد الجديد (صفحة ٥)."
-            },
-            {
-                id: 7,
-                type: "tf",
-                typeText: "صح أم خطأ",
-                text: "الهدف الأسمى والأساسي من دراسة هذا المنهج والمشاركة بالمسابقة هو الحفظ المطلق للنصوص للحصول على الدرجة فقط.",
-                options: [
-                    { id: "t", text: "صـح" },
-                    { id: "f", text: "خطـأ" }
-                ],
-                correct: "f",
-                explanation: "الهدف هو تنشئة جيل محب وحافظ ولكن الأهم: 'عاملاً بالوصايا الكتابية' (صفحة ٢)."
-            },
-            {
-                id: 8,
-                type: "essay",
-                typeText: "سؤال مقالي تفصيلي",
-                text: "اذكر باختصار الأقسام الأربعة (٤) الرئيسية التي يتم تقسيم أسفار العهد الجديد إليها مع عدد رسائل المعلم بولس والكاثوليكون.",
-                correct: "الأناجيل الأربعة (بشارة متى، مرقس، لوقا، يوحنا) - أعمال الرسل (السفر التاريخي) - الرسائل التعليمية (٢١ رسالة تشمل ١٤ رسالة لمعلمنا بولس، و٧ رسائل الكاثوليكون الجامعة) - سفر الرؤيا (السفر النبوي الوحيد).",
-                explanation: "كما ورد بالتقسيم في صفحة ٣ وصفحة ٥."
-            },
-            {
-                id: 9,
-                type: "essay",
-                typeText: "سؤال مقالي تحليلي",
-                text: "اشرح بأسلوبك ماذا تعني خطوة 'صلي الكلمة' كإحدى مهارات قراءة الكتاب المقدس وكيف تنعكس في علاقتك الروحية؟",
-                correct: "تعني تحويل ما قمت بقراءته واستخراجه من وصايا أو وعود إلى صلوات ترفعها إلى الله، وتطلب منه معونة وقوة ليساعدك على العمل بالوصية، لتتكون بينك وبين الكتاب المقدس صداقة شخصية حقيقية.",
-                explanation: "وردت خطوة الصلاة كخاتمة لخطوات القراءة ليكون للكلمة تأثير تطبيقي في حياة الطفل (صفحة ٦)."
-            },
-            {
-                id: 10,
-                type: "essay",
-                typeText: "سؤال مقالي لاهوتي مبسط",
-                text: "لماذا نجد الكتاب المقدس يتكلم كأنه كاتب واحد ورسالة واحدة، بالرغم من تنوع الكُتّاب واختلاف مهنهم وأماكنهم وتاريخ كتابتهم؟",
-                correct: "بسبب الوحي الإلهي؛ فكل الكُتّاب كانوا مسوقين (مرشدين) من الروح القدس الذي قاد عقولهم وقلوبهم ليكتبوا حقائق الله دون أخطاء، فالمؤلف الحقيقي والمنسق الفعلي للكتاب المقدس هو الروح القدس.",
-                explanation: "الأسفار الإلهية كتبها قديسون مسوقون من الروح القدس، لذا لا توجد بها كلمة واحدة خطأ أو تناقض (صفحة ٣)."
-            }
-        ];
+    <form id="quizForm">
+        <div class="card">
+            <h2 class="section-title">بيانات خادم المسيح الصغير</h2>
+            <div class="form-group">
+                <label for="studentName">اسم التلميذ ثلاثي:</label>
+                <input type="text" id="studentName" class="form-control" required placeholder="اكتب اسمك هنا...">
+            </div>
+            <div class="form-group">
+                <label for="grade">الصف الدراسي:</label>
+                <select id="grade" class="form-control" required>
+                    <option value="" disabled selected>اختر صفك الدراسي...</option>
+                    <option value="5">الصف الخامس الابتدائي</option>
+                    <option value="6">الصف السادس الابتدائي</option>
+                </select>
+            </div>
+        </div>
 
-        let studentData = {};
-        let currentQuestionIndex = 0;
-        let answers = {}; // Store student responses: { qId: optionId/text }
-
-        function startQuiz(event) {
-            event.preventDefault();
+        <div class="card">
+            <h2 class="section-title">أولاً: أسئلة الاختيار من متعدد</h2>
             
-            studentData.name = document.getElementById("student-name").value.trim();
-            studentData.church = document.getElementById("student-church").value.trim();
-            studentData.grade = document.querySelector('input[name="student-grade"]:checked').value;
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س١:</span> ما هو المحور الرئيسي الثابت للكتاب المقدس بأكمله من أول صفحة إلى آخر صفحة؟</p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q1" value="أ" required> أ) قصص الأنبياء والملوك</label>
+                    <label class="option-label"><input type="radio" name="q1" value="ب"> ب) شخص الرب يسوع المسيح وخلاص الإنسان</label>
+                    <label class="option-label"><input type="radio" name="q1" value="ج"> ج) تاريخ الأمة اليهودية</label>
+                </div>
+                <div class="feedback" id="q1_feedback"></div>
+            </div>
 
-            document.getElementById("welcome-stage").classList.add("hidden");
-            document.getElementById("progress-container").classList.remove("hidden");
-            document.getElementById("quiz-stage").classList.remove("hidden");
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٢:</span> كم عدد الآباء والأنبياء والكُتّاب الذين اشتركوا في كتابة أسفار الكتاب المقدس؟</p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q2" value="أ" required> أ) حوالي ٢٠ كاتباً</label>
+                    <label class="option-label"><input type="radio" name="q2" value="ب"> ب) حوالي ٤٠ كاتباً</label>
+                    <label class="option-label"><input type="radio" name="q2" value="ج"> ج) حوالي ٦٠ كاتباً</label>
+                </div>
+                <div class="feedback" id="q2_feedback"></div>
+            </div>
 
-            showQuestion();
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٣:</span> تستغرق خطة دراسة الكتاب المقدس المخصصة لمرحلة الطفولة بالمهرجان مدة كم سنة؟</p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q3" value="أ" required> أ) ٦ سنوات</label>
+                    <label class="option-label"><input type="radio" name="q3" value="ب"> ب) ٨ سنوات</label>
+                    <label class="option-label"><input type="radio" name="q3" value="ج"> ج) ١٠ سنوات</label>
+                </div>
+                <div class="feedback" id="q3_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٤:</span> أي من الخطوات التالية تُعبر عن استخراج وصية أو وعد أو موقف تطبيقي أثناء القراءة المهارية؟</p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q4" value="أ" required> أ) خطوة "افهم الفكرة"</label>
+                    <label class="option-label"><input type="radio" name="q4" value="ب"> ب) خطوة "اكتشف الكنز"</label>
+                    <label class="option-label"><input type="radio" name="q4" value="ج"> ج) خطوة "طبق وعيش"</label>
+                </div>
+                <div class="feedback" id="q4_feedback"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">ثانياً: أسئلة الصواب والخطأ</h2>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٥:</span> كُتبت أسفار الكتاب المقدس في فترة زمنية قصيرة بلغت حوالي ١٦٠ عاماً فقط.</p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q5" value="صح" required> ✓ عبارة صحيحة</label>
+                    <label class="option-label"><input type="radio" name="q5" value="غلط"> ✗ عبارة خاطئة</label>
+                </div>
+                <div class="feedback" id="q5_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٦:</span> وفقاً لتقسيم أسفار العهد الجديد، يعتبر سفر "أعمال الرسل" هو السفر التاريخي الوحيد.</p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q6" value="صح" required> ✓ عبارة صحيحة</label>
+                    <label class="option-label"><input type="radio" name="q6" value="غلط"> ✗ عبارة خاطئة</label>
+                </div>
+                <div class="feedback" id="q6_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٧:</span> الهدف الأساسي من مسابقة الكتاب المقدس هو تجميع أكبر حصة من الحفظ دون شرط الفهم أو العمل بالوصية.</p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q7" value="صح" required> ✓ عبارة صحيحة</label>
+                    <label class="option-label"><input type="radio" name="q7" value="غلط"> ✗ عبارة خاطئة</label>
+                </div>
+                <div class="feedback" id="q7_feedback"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">ثالثاً: الأسئلة المقالية</h2>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٨:</span> اذكر باختصار الأقسام الـ ٤ الرئيسية التي تنقسم إليها أسفار العهد الجديد (٢٧ سفراً).</p>
+                <textarea class="form-control" name="q8" required placeholder="اكتب الإجابة هنا..."></textarea>
+                <div class="model-answer" id="q8_model" style="display:none;">
+                    <strong>الإجابة النموذجية:</strong> تنقسم أسفار العهد الجديد إلى: الأناجيل الأربعة، أعمال الرسل، الرسائل، وسفر الرؤيا.
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٩:</span> اشرح بأسلوبك ماذا تعني خطوة "صلي الكلمة" كإحدى مهارات قراءة واستيعاب الكتاب المقدس.</p>
+                <textarea class="form-control" name="q9" required placeholder="اكتب الإجابة هنا..."></textarea>
+                <div class="model-answer" id="q9_model" style="display:none;">
+                    <strong>الإجابة النموذجية:</strong> تعني تحويل الآية إلى صلاة شخصية تطلب فيها من الله القوة لتنفذ وصاياه.
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س١٠:</span> لماذا تتنوع مهن وخلفيات كُتّاب الكتاب المقدس ومع ذلك يظهر الكتاب في وحدة وتناغم تام؟</p>
+                <textarea class="form-control" name="q10" required placeholder="اكتب الإجابة هنا..."></textarea>
+                <div class="model-answer" id="q10_model" style="display:none;">
+                    <strong>الإجابة النموذجية:</strong> لأن المؤلف الحقيقي والملهم لهم جميعاً هو "الروح القدس" (الوحي الإلهي).
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">عرض النتيجة وتصحيح الاختبار</button>
+    </form>
+
+    <div class="card result-box" id="resultBox">
+        <h2 style="color:var(--primary)">تم تصحيح وتسليم الاختبار بنجاح 🎉</h2>
+        <p id="studentGreeting" style="font-size:16px; margin-top:10px; font-weight:bold;"></p>
+        <div class="score-circle" id="scoreDisplay">0 / 7</div>
+        <p style="font-weight:bold; color: var(--accent);">تم حفظ النتيجة في شيت الإكسيل الخاص بالخادم. لا يمكنك إعادة الحل مرة أخرى.</p>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('taken_bible_quiz_2026') === 'true') {
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('blockedBox').style.display = 'block';
+        }
+    });
+
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        localStorage.setItem('taken_bible_quiz_2026', 'true');
+
+        const answers = {
+            q1: "ب", q2: "ب", q3: "ب", q4: "ب", q5: "غلط", q6: "صح", q7: "غلط"
+        };
+
+        let score = 0;
+        const formData = new FormData(this);
+
+        for (let i = 1; i <= 7; i++) {
+            const questionKey = 'q' + i;
+            const userAnswer = formData.get(questionKey);
+            const feedbackElement = document.getElementById(questionKey + '_feedback');
+
+            if (userAnswer === answers[questionKey]) {
+                score++;
+                feedbackElement.textContent = "✓ إجابة صحيحة! أحسنت.";
+                feedbackElement.className = "feedback correct";
+            } else {
+                let correctText = answers[questionKey];
+                if(correctText === "غلط") correctText = "✗ عبارة خاطئة";
+                if(correctText === "صح") correctText = "✓ عبارة صحيحة";
+                feedbackElement.textContent = `✗ إجابة خاطئة. الإجابة الصحيحة هي: (${correctText})`;
+                feedbackElement.className = "feedback wrong";
+            }
+            document.getElementsByName(questionKey).forEach(input => input.disabled = true);
         }
 
-        function showQuestion() {
-            const question = questions[currentQuestionIndex];
-            
-            // Update progress bar
-            const progress = ((currentQuestionIndex) / questions.length) * 100;
-            document.getElementById("progress-bar").style.width = `${progress}%`;
+        ['q8', 'q9', 'q10'].forEach(q => { document.getElementsByName(q)[0].disabled = true; });
+        document.getElementById('q8_model').style.display = 'block';
+        document.getElementById('q9_model').style.display = 'block';
+        document.getElementById('q10_model').style.display = 'block';
 
-            // UI Card details
-            document.getElementById("question-index").innerText = `السؤال ${currentQuestionIndex + 1} من ${questions.length}`;
-            document.getElementById("question-type").innerText = question.typeText;
-            document.getElementById("question-text").innerText = question.text;
+        const name = document.getElementById('studentName').value;
+        const gradeVal = document.getElementById('grade').value === "5" ? "الخامس" : "السادس";
+        const finalScore = `${score} / 7`;
+        const currentDate = new Date().toLocaleString('ar-EG');
 
-            const optionsContainer = document.getElementById("options-container");
-            optionsContainer.innerHTML = "";
+        document.getElementById('studentGreeting').textContent = `الطفل البطل: ${name} (الصف ${gradeVal} الابتدائي)`;
+        document.getElementById('scoreDisplay').textContent = finalScore;
+        document.querySelector('.btn').style.display = 'none';
+        
+        const resultBox = document.getElementById('resultBox');
+        resultBox.style.display = 'block';
+        resultBox.scrollIntoView({ behavior: 'smooth' });
 
-            if (question.type === "mcq" || question.type === "tf") {
-                // Render Radio list options
-                question.options.forEach(opt => {
-                    const isChecked = answers[question.id] === opt.id ? "checked" : "";
-                    
-                    const optHtml = `
-                        <div class="relative">
-                            <input type="radio" name="quiz-option" id="opt-${opt.id}" value="${opt.id}" ${isChecked} onchange="saveResponse('${opt.id}')" class="hidden">
-                            <label for="opt-${opt.id}" class="option-card flex items-center p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-[#1a5276]/50 hover:bg-slate-50 font-medium text-slate-700 block transition-all duration-200">
-                                <span class="w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center ml-3 shrink-0 checked-indicator">
-                                    <span class="w-2.5 h-2.5 bg-[#1a5276] rounded-full hidden"></span>
-                                </span>
-                                ${opt.text}
-                            </label>
-                        </div>
-                    `;
-                    optionsContainer.insertAdjacentHTML("beforeend", optHtml);
-                });
+        // ⚠️ استبدل الرابط أدناه برابط SheetDB الخاص بك المربوط بـ Google Sheets لتعمل قاعدة البيانات
+        const sheetDB_API_URL = "https://sheetdb.io/api/v1/YOUR_API_ID"; 
 
-                // Style active selected element
-                if (answers[question.id]) {
-                    const selectedInput = document.getElementById(`opt-${answers[question.id]}`);
-                    if (selectedInput) {
-                        const checkedDot = selectedInput.nextElementSibling.querySelector(".checked-indicator span");
-                        if (checkedDot) checkedDot.classList.remove("hidden");
-                        selectedInput.nextElementSibling.classList.add("border-[#1a5276]", "bg-sky-50/50");
+        fetch(sheetDB_API_URL, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                data: [
+                    {
+                        'name': name,
+                        'grade': gradeVal,
+                        'score': finalScore,
+                        'date': currentDate
                     }
-                }
+                ]
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch(err => console.error('Error:', err));
+    });
+</script>
 
-            } else if (question.type === "essay") {
-                // Render custom textarea for kids to write inside
-                const currentText = answers[question.id] || "";
-                const essayHtml = `
-                    <div class="space-y-2">
-                        <textarea id="essay-ans" placeholder="اكتب إجابتك هنا يا بطل بأسلوبك وخطوات واضحة..." rows="6" oninput="saveResponse(this.value)"
-                                  class="w-full p-4 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#1a5276] focus:border-[#1a5276] outline-none transition text-slate-800 font-medium">${currentText}</textarea>
-                        <p class="text-xs text-slate-400">إجابتك سيتم عرضها ومقارنتها مع إجابة الكتاب لتقيم نفسك وتكتسب المعرفة الكاملة.</p>
-                    </div>
-                `;
-                optionsContainer.insertAdjacentHTML("beforeend", essayHtml);
-            }
-
-            // Adjust navigation control buttons
-            if (currentQuestionIndex === 0) {
-                document.getElementById("prev-btn").classList.add("hidden");
-            } else {
-                document.getElementById("prev-btn").classList.remove("hidden");
-            }
-
-            const nextBtn = document.getElementById("next-btn");
-            const nextText = document.getElementById("next-text");
-            if (currentQuestionIndex === questions.length - 1) {
-                nextText.innerText = "إنهاء وتصحيح الاختبار";
-                nextBtn.classList.remove("bg-[#1a5276]");
-                nextBtn.classList.add("bg-emerald-500", "hover:bg-emerald-600");
-            } else {
-                nextText.innerText = "السؤال التالي";
-                nextBtn.classList.remove("bg-emerald-500", "hover:bg-emerald-600");
-                nextBtn.classList.add("bg-[#1a5276]", "hover:bg-[#1a5276]/90");
-            }
-        }
-
-        function saveResponse(value) {
-            const question = questions[currentQuestionIndex];
-            answers[question.id] = value;
-
-            // Visual feedback update on selection change
-            if (question.type === "mcq" || question.type === "tf") {
-                document.querySelectorAll(".option-card").forEach(el => {
-                    el.classList.remove("border-[#1a5276]", "bg-sky-50/50");
-                    el.querySelector(".checked-indicator span").classList.add("hidden");
-                });
-                const selectedInput = document.getElementById(`opt-${value}`);
-                if (selectedInput) {
-                    selectedInput.nextElementSibling.classList.add("border-[#1a5276]", "bg-sky-50/50");
-                    selectedInput.nextElementSibling.querySelector(".checked-indicator span").classList.remove("hidden");
-                }
-            }
-        }
-
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                showQuestion();
-            }
-        }
-
-        function nextQuestion() {
-            const currentQ = questions[currentQuestionIndex];
-            
-            // Check if they skipped
-            if (!answers[currentQ.id] || answers[currentQ.id].toString().trim() === "") {
-                const confirmSkip = confirm("يا بطل، لم تقم بالإجابة على هذا السؤال بعد. هل أنت متأكد من الانتقال للسؤال التالي؟");
-                if (!confirmSkip) return;
-                answers[currentQ.id] = ""; // Explicit skip
-            }
-
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                showQuestion();
-            } else {
-                finishQuiz();
-            }
-        }
-
-        function finishQuiz() {
-            document.getElementById("quiz-stage").classList.add("hidden");
-            document.getElementById("progress-container").classList.add("hidden");
-            document.getElementById("result-stage").classList.remove("hidden");
-
-            // Calculate auto-graded MCQ & T/F score
-            const autoGradedQs = questions.filter(q => q.type === "mcq" || q.type === "tf");
-            let score = 0;
-            
-            const autoReportContainer = document.getElementById("auto-graded-report");
-            autoReportContainer.innerHTML = "";
-
-            autoGradedQs.forEach(q => {
-                const isCorrect = answers[q.id] === q.correct;
-                if (isCorrect) score++;
-
-                const selectedOptionText = q.options.find(o => o.id === answers[q.id])?.text || "لم تتم الإجابة";
-                const correctOptionText = q.options.find(o => o.id === q.correct).text;
-
-                const statusBg = isCorrect ? "bg-emerald-50 border-emerald-200" : "bg-rose-50 border-rose-200";
-                const iconColor = isCorrect ? "text-emerald-500" : "text-rose-500";
-                const iconClass = isCorrect ? "fa-circle-check" : "fa-circle-xmark";
-
-                const reportHtml = `
-                    <div class="p-4 border-2 rounded-xl ${statusBg} transition space-y-2">
-                        <div class="flex items-start justify-between">
-                            <h4 class="font-bold text-slate-800 text-sm md:text-base">${q.text}</h4>
-                            <span class="${iconColor} text-xl mr-2"><i class="fa-solid ${iconClass}"></i></span>
-                        </div>
-                        <div class="text-xs text-slate-600 grid grid-cols-1 md:grid-cols-2 gap-1 pt-1">
-                            <p><strong>إجابتك:</strong> ${selectedOptionText}</p>
-                            <p><strong>الإجابة الصحيحة:</strong> <span class="font-bold text-emerald-600">${correctOptionText}</span></p>
-                        </div>
-                        <p class="text-xs text-amber-800 bg-amber-50/70 p-2 rounded-lg border border-amber-100/50"><strong>شرح بسيط:</strong> ${q.explanation}</p>
-                    </div>
-                `;
-                autoReportContainer.insertAdjacentHTML("beforeend", reportHtml);
-            });
-
-            // Set up essay visual reporting
-            const essayQs = questions.filter(q => q.type === "essay");
-            const essayReportContainer = document.getElementById("essay-report");
-            essayReportContainer.innerHTML = "";
-
-            essayQs.forEach(q => {
-                const studentEssayVal = (answers[q.id] || "لم تتم الإجابة").replace(/\n/g, "<br>");
-                const essayHtml = `
-                    <div class="p-4 border border-slate-200 rounded-xl space-y-3 bg-slate-50/50">
-                        <h4 class="font-bold text-slate-800 text-sm md:text-base">${q.text}</h4>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                            <div class="p-3 bg-blue-50/50 border border-blue-100 rounded-lg">
-                                <h5 class="text-xs font-bold text-blue-600 mb-1">إجابتك التي كتبتها:</h5>
-                                <p class="text-sm text-slate-700 leading-relaxed">${studentEssayVal}</p>
-                            </div>
-                            <div class="p-3 bg-emerald-50/50 border border-emerald-100 rounded-lg">
-                                <h5 class="text-xs font-bold text-emerald-600 mb-1">إجابة الكتاب الرسمية (للمقارنة):</h5>
-                                <p class="text-sm text-slate-700 leading-relaxed font-semibold">${q.correct}</p>
-                            </div>
-                        </div>
-                        <p class="text-xs text-slate-500 italic bg-white p-2 rounded border"><strong>معلومة إضافية:</strong> ${q.explanation}</p>
-                    </div>
-                `;
-                essayReportContainer.insertAdjacentHTML("beforeend", essayHtml);
-            });
-
-            // Handle metadata and percentages (out of 7 auto-graded questions)
-            const percentageVal = Math.round((score / autoGradedQs.length) * 100);
-            document.getElementById("final-percentage").innerText = `${percentageVal}%`;
-            document.getElementById("score-fraction").innerText = `صحيحة: ${score} من أصل ${autoGradedQs.length} (الأسئلة الاختيارية)`;
-
-            document.getElementById("student-meta").innerText = `البطل: ${studentData.name} | ${studentData.church} | ${studentData.grade}`;
-
-            // Award ribbon / styling setup based on results
-            const trophyBox = document.getElementById("trophy-box");
-            const greeting = document.getElementById("result-greeting");
-
-            if (percentageVal >= 90) {
-                trophyBox.className = "inline-flex items-center justify-center w-24 h-24 rounded-full mb-4 bg-amber-100 text-amber-500 animate-bounce";
-                trophyBox.innerHTML = `<i class="fa-solid fa-trophy text-5xl"></i>`;
-                greeting.innerText = `ممتاز يا بطل الإنجيل الذهبي! 🎉`;
-            } else if (percentageVal >= 70) {
-                trophyBox.className = "inline-flex items-center justify-center w-24 h-24 rounded-full mb-4 bg-blue-100 text-blue-500";
-                trophyBox.innerHTML = `<i class="fa-solid fa-award text-5xl"></i>`;
-                greeting.innerText = `رائع جداً يا صديقي المجتهد! 🌟`;
-            } else {
-                trophyBox.className = "inline-flex items-center justify-center w-24 h-24 rounded-full mb-4 bg-slate-100 text-slate-500";
-                trophyBox.innerHTML = `<i class="fa-solid fa-book-open text-5xl"></i>`;
-                greeting.innerText = `بداية طيبة يا بطل، راجع المنهج مرة أخرى! 📚`;
-            }
-        }
-
-        function restartQuiz() {
-            answers = {};
-            currentQuestionIndex = 0;
-            document.getElementById("result-stage").classList.add("hidden");
-            document.getElementById("welcome-stage").classList.remove("hidden");
-            document.getElementById("reg-form").reset();
-        }
-    </script>
 </body>
 </html>
