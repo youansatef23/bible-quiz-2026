@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مسابقة الكتاب المقدس والمحفوظات ٢٠٢٦</title>
+    <style>
+        :root {
+            --primary: #1a5276;
+            --primary-light: #ebf5fb;
+            --accent: #ba4a00;
+            --text-dark: #2b2d42;
+            --text-muted: #566573;
+            --bg-body: #f4f6f7;
+            --bg-card: #ffffff;
+            --correct: #27ae60;
+            --wrong: #c0392b;
+            --border: #d5dbdb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), #2980b9);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        .section-title {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            display: inline-block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        .question-box {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .question-box:last-child {
+            border-bottom: none;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .question-num {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .points {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: normal;
+            margin-right: 5px;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: var(--primary-light);
+        }
+
+        .option-label input {
+            margin-left: 10px;
+            transform: scale(1.2);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            background-color: #a04000;
+        }
+
+        .result-box {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px auto;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .feedback.correct {
+            background-color: #d4efdf;
+            color: var(--correct);
+        }
+
+        .feedback.wrong {
+            background-color: #f9e7e7;
+            color: var(--wrong);
+        }
+
+        .model-answer {
+            background-color: #fcf3cf;
+            border-right: 4px solid #f1c40f;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+        }
+
+        #blockedBox {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            border: 2px solid var(--wrong);
+            background-color: #f9e7e7;
+            border-radius: 12px;
+        }
+        #blockedBox h2 {
+            color: var(--wrong);
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>مسابقة الكتاب المقدس والمحفوظات ٢٠٢٦</h1>
+        <p>مهرجان الكرازة المرقسية - اختبار تفاعلي تجريبي</p>
+    </header>
+
+    <div id="blockedBox" class="card">
+        <h2>عذراً! غير مسموح بالدخول مرة أخرى ❌</h2>
+        <p style="font-size: 16px; font-weight: bold;">لقد قمت باجتياز هذا الاختبار مسبقاً من هذا الجهاز. مسموح بمحاولة واحدة فقط لكل طالب لضمان تكافؤ الفرص.</p>
+    </div>
+
+    <form id="quizForm">
+        <div class="card">
+            <h2 class="section-title">بيانات خادم المسيح الصغير</h2>
+            <div class="form-group">
+                <label for="studentName">اسم التلميذ ثلاثي:</label>
+                <input type="text" id="studentName" class="form-control" required placeholder="اكتب اسمك هنا...">
+            </div>
+            <div class="form-group">
+                <label for="grade">الصف الدراسي:</label>
+                <select id="grade" class="form-control" required>
+                    <option value="" disabled selected>اختر صفك الدراسي...</option>
+                    <option value="5">الصف الخامس الابتدائي</option>
+                    <option value="6">الصف السادس الابتدائي</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">أسئلة المسابقة</h2>
+            
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س١:</span> كم عدد أسفار الكتاب المقدس؟ <span class="points">(نقطة واحدة)</span></p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q1" value="أ" required> أ) 66</label>
+                    <label class="option-label"><input type="radio" name="q1" value="ب"> ب) 27</label>
+                    <label class="option-label"><input type="radio" name="q1" value="ج"> ج) 73</label>
+                </div>
+                <div class="feedback" id="q1_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٢:</span> ما هو المحور الرئيسي للكتاب المقدس بأكمله من أول صفحة إلى آخر صفحة؟ <span class="points">(نقطة واحدة)</span></p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q2" value="أ" required> أ) قصص الأنبياء والملوك</label>
+                    <label class="option-label"><input type="radio" name="q2" value="ب"> ب) شخص الرب يسوع المسيح وخلاص الإنسان</label>
+                    <label class="option-label"><input type="radio" name="q2" value="ج"> ج) تاريخ الأمة اليهودية</label>
+                </div>
+                <div class="feedback" id="q2_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٣:</span> كم عدد الآباء والقديسين الذين أرشدهم الروح القدس واشتركوا في كتابة أسفار الكتاب المقدس عبر التاريخ؟ <span class="points">(نقطة واحدة)</span></p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q3" value="أ" required> أ) حوالي ٢٠ كاتباً</label>
+                    <label class="option-label"><input type="radio" name="q3" value="ب"> ب) حوالي ٤٠ كاتباً</label>
+                    <label class="option-label"><input type="radio" name="q3" value="ج"> ج) حوالي ٦٠ كاتباً</label>
+                </div>
+                <div class="feedback" id="q3_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٤:</span> كُتبت أسفار الكتاب المقدس كاملة في فترة زمنية قصيرة بلغت حوالي ١٦٠ عاماً تقريباً. <span class="points">(نقطة واحدة)</span></p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q4" value="صح" required> ✓ عبارة صحيحة</label>
+                    <label class="option-label"><input type="radio" name="q4" value="غلط"> ✗ عبارة خاطئة</label>
+                </div>
+                <div class="feedback" id="q4_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٥:</span> وفقاً للتقسيم التقليدي لأسفار العهد الجديد الـ (27)، يعتبر سفر "أعمال الرسل" هو السفر التاريخي الوحيد. <span class="points">(نقطة واحدة)</span></p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q5" value="صح" required> ✓ عبارة صحيحة</label>
+                    <label class="option-label"><input type="radio" name="q5" value="غلط"> ✗ عبارة خاطئة</label>
+                </div>
+                <div class="feedback" id="q5_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٦:</span> اذكر باختصار الأقسام الأربعة (٤) الرئيسية التي يتم تقسيم أسفار العهد الجديد إليها مع عدد رسائل المعلم بولس والكاثوليكون. <span class="points">(نقطة واحدة)</span></p>
+                <textarea class="form-control" name="q6" required placeholder="اكتب إجابتك هنا..."></textarea>
+                <div class="model-answer" id="q6_model" style="display:none;">
+                    <strong>الإجابة النموذجية:</strong> الأناجيل الأربعة (بشارة متى، مرقس، لوقا، يوحنا) - أعمال الرسل (السفر التاريخي) - الرسائل التعليمية (٢١ رسالة تشمل ١٤ رسالة لمعلمنا بولس، و٧ رسائل الكاثوليكون الجامعة) - سفر الرؤيا.
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٧:</span> ما هي عقوبة الخطية؟ <span class="points">(نقطة واحدة)</span></p>
+                <textarea class="form-control" name="q7" required placeholder="اكتب إجابتك هنا..."></textarea>
+                <div class="model-answer" id="q7_model" style="display:none;">
+                    <strong>الإجابة النموذجية:</strong> الموت (الموت الأدبي والروحي والجسدي والأسري والأبدي).
+                </div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٨:</span> كان سهل علي ربنا يخلق الانسان من اول وجديد بعد ما اخطا. <span class="points">(نقطة واحدة)</span></p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q8" value="صح" required> ✓ عبارة صحيحة</label>
+                    <label class="option-label"><input type="radio" name="q8" value="غلط"> ✗ عبارة خاطئة</label>
+                </div>
+                <div class="feedback" id="q8_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س٩:</span> ما هي شروط الفادي؟ (اختر جميع الإجابات الصحيحة) <span class="points">(نقطة واحدة)</span></p>
+                <div class="options-container">
+                    <label class="option-label"><input type="checkbox" name="q9" value="رحيم"> رحيم ومحب</label>
+                    <label class="option-label"><input type="checkbox" name="q9" value="بلا_خطية"> إنساناً بلا خطية</label>
+                    <label class="option-label"><input type="checkbox" name="q9" value="قدوس"> قدوس</label>
+                    <label class="option-label"><input type="checkbox" name="q9" value="يموت"> يمكن أن يموت</label>
+                    <label class="option-label"><input type="checkbox" name="q9" value="أقوى"> أقوى من الموت</label>
+                    <label class="option-label"><input type="checkbox" name="q9" value="غير_محدود"> غير محدود</label>
+                </div>
+                <div class="feedback" id="q9_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س١٠:</span> لأن ربنا رحيم و بيحب الانسان لا يمكن أن يتركه أن يموت. <span class="points">(نقطة واحدة)</span></p>
+                <div class="options-container">
+                    <label class="option-label"><input type="radio" name="q10" value="صح" required> ✓ عبارة صحيحة</label>
+                    <label class="option-label"><input type="radio" name="q10" value="غلط"> ✗ عبارة خاطئة</label>
+                </div>
+                <div class="feedback" id="q10_feedback"></div>
+            </div>
+
+            <div class="question-box">
+                <p class="question-text"><span class="question-num">س١١:</span> اكتب الآية التي في (رومية ١٢:٥). <span class="points">(٥ نقاط)</span></p>
+                <textarea class="form-control" name="q11" required placeholder="اكتب الآية المطلوبة بالكامل هنا..."></textarea>
+                <div class="model-answer" id="q11_model" style="display:none;">
+                    <strong>الآية النموذجية:</strong> "مِنْ أَجْلِ ذَلِكَ كَأَنَّمَا بِإِنْسَانٍ وَاحِدٍ دَخَلَتِ الْخَطِيَّةُ إِلَى الْعَالَمِ، وَبِالْخَطِيَّةِ الْمَوْتُ، وَهَكَذَا اجْتَازَ الْمَوْتُ إِلَى جَمِيعِ النَّاسِ، إِذْ أَخْطَأَ الْجَمِيعُ."
+                </div>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn">عرض النتيجة وتسليم الاختبار</button>
+    </form>
+
+    <div class="card result-box" id="resultBox">
+        <h2 style="color:var(--primary)">تم تصحيح وتسليم الاختبار بنجاح 🎉</h2>
+        <p id="studentGreeting" style="font-size:16px; margin-top:10px; font-weight:bold;"></p>
+        <div class="score-circle" id="scoreDisplay">0 / 8</div>
+        <p style="color:var(--text-muted); font-size:14px; margin-bottom:15px;">(النتيجة المحسوبة مبنية على الأسئلة الموضوعية الـ ٨ التي تُصحح تلقائياً من إجمالي 8 نقاط)</p>
+        <p style="font-weight:bold; color: var(--accent);">تم حفظ النتيجة في شيت الإكسيل الخاص بالخادم. راجع الأعلى لمقارنة إجاباتك المقالية بالنموذج الأصفر!</p>
+    </div>
+</div>
+
+<script>
+    // 1. قفل التكرار: التذكر أن الجهاز دخل وحل الامتحان مسبقاً
+    const quizStorageKey = 'bible_mats_quiz_2026_part1';
+
+    window.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem(quizStorageKey) === 'true') {
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('blockedBox').style.display = 'block';
+        }
+    });
+
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // قفل الامتحان فور الضغط على التسليم
+        localStorage.setItem(quizStorageKey, 'true');
+
+        // مفتاح إجابات الأسئلة الموضوعية
+        const answers = {
+            q1: "أ",
+            q2: "ب",
+            q3: "ج",
+            q4: "غلط",
+            q5: "غلط", // لأن عدد أسفار العهد الجديد 27 وليس 28 كما ورد في نص السؤال
+            q8: "غلط",
+            q10: "صح"
+        };
+
+        let objectScore = 0;
+        const formData = new FormData(this);
+
+        // تصحيح الأسئلة الاختيارية والصح والغلط العادية
+        const objQuestions = [1, 2, 3, 4, 5, 8, 10];
+        objQuestions.forEach(num => {
+            const key = 'q' + num;
+            const userAnswer = formData.get(key);
+            const feedback = document.getElementById(key + '_feedback');
+
+            if (userAnswer === answers[key]) {
+                objectScore++;
+                feedback.textContent = "✓ إجابة صحيحة! أحسنت.";
+                feedback.className = "feedback correct";
+            } else {
+                let correctText = answers[key];
+                if(correctText === "غلط") correctText = "✗ عبارة خاطئة";
+                if(correctText === "صح") correctText = "✓ عبارة صحيحة";
+                feedback.textContent = `✗ إجابة خاطئة. الإجابة الصحيحة هي: (${correctText})`;
+                feedbackElement = feedback.className = "feedback wrong";
+            }
+            // قفل الاختيارات
+            document.getElementsByName(key).forEach(input => input.disabled = true);
+        });
+
+        // تصحيح سؤال 9 (مربعات الاختيار المتعددة لشروط الفادي)
+        const q9Selected = formData.getAll('q9');
+        const q9Feedback = document.getElementById('q9_feedback');
+        // الشروط الصحيحة المطلوبة حسب ما تم تحديده: بلا خطية، يموت، أقوى من الموت، غير محدود
+        const rightAnswers = ["بلا_خطية", "يموت", "أقوى", "غير_محدود"];
+        
+        const isQ9Correct = rightAnswers.every(val => q9Selected.includes(val)) && q9Selected.length === rightAnswers.length;
+        
+        if (isQ9Correct) {
+            objectScore++;
+            q9Feedback.textContent = "✓ إجابة صحيحة بالكامل! شروط الفادي الأربعة.";
+            q9Feedback.className = "feedback correct";
+        } else {
+            q9Feedback.textContent = "✗ إجابة غير مكتملة. شروط الفادي هي: (إنساناً بلا خطية، يمكن أن يموت، أقوى من الموت، غير محدود).";
+            q9Feedback.className = "feedback wrong";
+        }
+        document.getElementsByName('q9').forEach(input => input.disabled = true);
+
+        // إظهار الإجابات النموذجية للأسئلة المقالية (6، 7، 11) وقفل حقول الكتابة
+        const textQuestions = ['q6', 'q7', 'q11'];
+        textQuestions.forEach(q => {
+            document.getElementsByName(q)[0].disabled = true;
+            document.getElementById(q + '_model').style.display = 'block';
+        });
+
+        const name = document.getElementById('studentName').value;
+        const gradeVal = document.getElementById('grade').value === "5" ? "الخامس" : "السادس";
+        const finalScoreLabel = `${objectScore} / 8`;
+        const currentDate = new Date().toLocaleString('ar-EG');
+
+        // عرض صندوق النتيجة للطفل
+        document.getElementById('studentGreeting').textContent = `الطفل البطل: ${name} (الصف ${gradeVal} الابتدائي)`;
+        document.getElementById('scoreDisplay').textContent = finalScoreLabel;
+        document.querySelector('.btn').style.display = 'none';
+        
+        const resultBox = document.getElementById('resultBox');
+        resultBox.style.display = 'block';
+        resultBox.scrollIntoView({ behavior: 'smooth' });
+
+        // 2. ميزة ربط شيت إكسيل السحابي تلقائياً (SheetDB)
+        // ⚠️ يرجى استبدال الرابط أدناه بالرابط الذي تحصل عليه من موقع sheetdb.io لجدولك
+        const sheetDB_API_URL = "https://sheetdb.io/api/v1/YOUR_API_ID"; 
+
+        fetch(sheetDB_API_URL, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                data: [
+                    {
+                        'name': name,
+                        'grade': gradeVal,
+                        'score': finalScoreLabel,
+                        'date': currentDate
+                    }
+                ]
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log('تم حفظ بيانات الطفل في الإكسيل سحابياً بنجاح:', data))
+        .catch(err => console.error('خطأ أثناء الإرسال لجدول جوجل:', err));
+    });
+</script>
+
+</body>
+</html>
